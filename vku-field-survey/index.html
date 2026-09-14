@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#ffffff"
+    >
+
+    <title>VKU Field Survey</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header>
+            <h1>VKU Field Survey</h1>
+
+            <div id="network-status">
+                🟢 Online
+            </div>
+        </header>
+
+        <main>
+
+            <h2>Survey Form</h2>
+
+            <form id="survey-form">
+
+                <label for="room">
+                    Room
+                </label>
+
+                <input
+                    type="text"
+                    id="room"
+                    name="room"
+                    placeholder="Example: A101"
+                    required
+                >
+
+
+                <label for="facility">
+                    Facility
+                </label>
+
+                <select
+                    id="facility"
+                    name="facility"
+                    required
+                >
+                    <option value="">
+                        -- Select facility --
+                    </option>
+
+                    <option value="Classroom">
+                        Classroom
+                    </option>
+
+                    <option value="Laboratory">
+                        Laboratory
+                    </option>
+
+                    <option value="Library">
+                        Library
+                    </option>
+
+                    <option value="Restroom">
+                        Restroom
+                    </option>
+                </select>
+
+
+                <label for="condition">
+                    Condition
+                </label>
+
+                <select
+                    id="condition"
+                    name="condition"
+                    required
+                >
+                    <option value="">
+                        -- Select condition --
+                    </option>
+
+                    <option value="Good">
+                        Good
+                    </option>
+
+                    <option value="Normal">
+                        Normal
+                    </option>
+
+                    <option value="Needs Repair">
+                        Needs Repair
+                    </option>
+                </select>
+
+
+                <label for="description">
+                    Description
+                </label>
+
+                <textarea
+                    id="description"
+                    name="description"
+                    rows="4"
+                    placeholder="Describe the current condition..."
+                ></textarea>
+
+
+                <label for="inspector">
+                    Inspector
+                </label>
+
+                <input
+                    type="text"
+                    id="inspector"
+                    name="inspector"
+                    placeholder="Your name"
+                    required
+                >
+
+
+                <button type="submit">
+                    Submit Survey
+                </button>
+
+            </form>
+
+            <div id="message"></div>
+
+        </main>
+
+    </div>
+
+    <script src="db.js"></script>
+    <script src="sync.js"></script>
+    <script src="app.js"></script>
+
+</body>
+</html>
