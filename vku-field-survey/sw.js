@@ -8,7 +8,8 @@ const APP_FILES = [
     "./app.js",
     "./db.js",
     "./sync.js",
-    "./manifest.json"
+    "./manifest.json",
+    "./icon.svg"
 ];
 
 

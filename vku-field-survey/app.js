@@ -139,7 +139,7 @@ if (surveyForm) {
       if (navigator.onLine) {
         openSuccessModal(
           "TRANSMISSION COMPLETE",
-          "Dữ liệu khảo sát đã được ghi nhận và đang tiến hành đồng bộ lên Google Sheets!"
+          "Dữ liệu khảo sát đã được ghi nhận"
         );
         // Chạy đồng bộ ngầm, KHÔNG dùng await để tránh làm form đứng hình chờ mạng
         if (typeof syncPendingSurveys === "function") {
