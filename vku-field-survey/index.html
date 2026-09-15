@@ -1,153 +1,145 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <meta
-        name="theme-color"
-        content="#ffffff"
-    >
-
-    <title>VKU Field Survey</title>
-
-    <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b0d13">
+  <title>VKU // FIELD SURVEY</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
 </head>
-
 <body>
 
-    <div class="container">
+  <div class="wuwa-panel">
+    <header class="wuwa-header">
+      <div class="brand-group">
+        <div class="frequency-bars">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+        <div class="brand-text">
+          <span class="category-tag">SYSTEM // AUDIT REGISTRY</span>
+          <h1>FIELD SURVEY <span>MODULE</span></h1>
+        </div>
+      </div>
 
-        <header>
-            <h1>VKU Field Survey</h1>
+      <div id="network-status" class="resonance-status">
+        <span class="resonance-core"></span>
+        <span class="status-txt">CONNECTED</span>
+      </div>
+    </header>
 
-            <div id="network-status">
-                🟢 Online
-            </div>
-        </header>
+    <div class="gold-divider"></div>
 
-        <main>
+    <!-- Main Content -->
+    <main class="wuwa-content">
+      <form id="survey-form">
 
-            <h2>Survey Form</h2>
+        <!-- Row 1: Inspector & Zone -->
+        <div class="form-row">
+          <div class="form-item">
+            <label for="inspector"><span class="bullet">◇</span> Người kiểm tra</label>
+            <input type="text" id="inspector" name="inspector" placeholder="Họ và tên người kiểm tra" required autocomplete="off">
+          </div>
 
-            <form id="survey-form">
+          <div class="form-item">
+            <label for="zone"><span class="bullet">◇</span> KHU </label>
+            <select id="zone" name="zone" required>
+              <option value="">-- Chọn Khu --</option>
+              <option value="Khu V">Khu V</option>
+              <option value="Khu K">Khu K</option>
+            </select>
+          </div>
+        </div>
 
-                <label for="room">
-                    Room
-                </label>
+        <!-- Row 2: Building & Room -->
+        <div class="form-row">
+          <div class="form-item">
+            <label for="building"><span class="bullet">◇</span> TÒA NHÀ </label>
+            <input type="text" id="building" name="building" placeholder="VD: Tòa A, Tòa K1..." required autocomplete="off">
+          </div>
 
-                <input
-                    type="text"
-                    id="room"
-                    name="room"
-                    placeholder="Example: A101"
-                    required
-                >
+          <div class="form-item">
+            <label for="room"><span class="bullet">◇</span> PHÒNG </label>
+            <input type="text" id="room" name="room" placeholder="VD: A101, Lab-02..." required autocomplete="off">
+          </div>
+        </div>
 
+        <!-- Row 3: Room Type & Equipment Category -->
+        <div class="form-row">
+          <div class="form-item">
+            <label for="roomType"><span class="bullet">◇</span> Loại Phòng</label>
+            <select id="roomType" name="roomType" required>
+              <option value="">-- Chọn loại phòng --</option>
+              <option value="Classroom">Phòng học</option>
+              <option value="Laboratory">Phòng máy/Lab</option>
+              <option value="Library">Thư viện</option>
+              <option value="Restroom">Khu vệ sinh</option>
+              <option value="Office">Văn phòng / Khoa</option>
+            </select>
+          </div>
 
-                <label for="facility">
-                    Facility
-                </label>
+          <div class="form-item">
+            <label for="equipmentCategory"><span class="bullet">◇</span> Thiết bị </label>
+            <select id="equipmentCategory" name="equipmentCategory" required>
+              <option value="">-- Danh mục thiết bị --</option>
+              <option value="Hardware / Computers">Máy tính</option>
+              <option value="Projector / Screen">Máy chiếu</option>
+              <option value="HVAC / Air Condition">Điều hòa, quạt</option>
+              <option value="Electrical / Lighting">Điện</option>
+              <option value="Furniture / Desks">Bàn, ghế, bảng</option>
+            </select>
+          </div>
+        </div>
 
-                <select
-                    id="facility"
-                    name="facility"
-                    required
-                >
-                    <option value="">
-                        -- Select facility --
-                    </option>
+   
+        <div class="form-row">
+          <div class="form-item">
+            <label for="operationalStatus"><span class="bullet">◇</span> Trạng thái vận hành</label>
+            <select id="operationalStatus" name="operationalStatus" required>
+              <option value="">-- Hiện trạng vận hành --</option>
+              <option value="Functional"> Hoạt động tốt </option>
+              <option value="Degraded"> Xuống cấp nhẹ </option>
+              <option value="Broken"> Hỏng hóc</option>
+            </select>
+          </div>
 
-                    <option value="Classroom">
-                        Classroom
-                    </option>
+          <div class="form-item">
+            <label for="priorityLevel"><span class="bullet">◇</span> Mức độ ưu tiên </label>
+            <select id="priorityLevel" name="priorityLevel" required>
+              <option value="">-- Mức độ ưu tiên --</option>
+              <option value="Low"> Bình thường </option>
+              <option value="Medium"> Bảo dưỡng định kỳ </option>
+              <option value="Urgent"> Xử lý ngay lập tức </option>
+            </select>
+          </div>
+        </div>
 
-                    <option value="Laboratory">
-                        Laboratory
-                    </option>
+        <!-- Row 5: Incident Detail -->
+        <div class="form-item full-width">
+          <label for="incidentDetail"><span class="bullet">◇</span> Chi tiết sự cố</label>
+          <textarea id="incidentDetail" name="incidentDetail" rows="3" placeholder="Mô tả cụ thể sự cố, ghi chú bất thường hoặc hiện trạng kiểm tra..."></textarea>
+        </div>
 
-                    <option value="Library">
-                        Library
-                    </option>
+        <!-- Action Button -->
+        <div class="btn-wrap">
+          <button type="submit" class="wuwa-btn">
+            <span class="btn-inner">
+              <span class="btn-diamond">◆</span>
+              TRANSMIT AUDIT PACKET
+            </span>
+          </button>
+        </div>
+      </form>
 
-                    <option value="Restroom">
-                        Restroom
-                    </option>
-                </select>
+      <div id="message"></div>
+    </main>
 
+  </div>
 
-                <label for="condition">
-                    Condition
-                </label>
-
-                <select
-                    id="condition"
-                    name="condition"
-                    required
-                >
-                    <option value="">
-                        -- Select condition --
-                    </option>
-
-                    <option value="Good">
-                        Good
-                    </option>
-
-                    <option value="Normal">
-                        Normal
-                    </option>
-
-                    <option value="Needs Repair">
-                        Needs Repair
-                    </option>
-                </select>
-
-
-                <label for="description">
-                    Description
-                </label>
-
-                <textarea
-                    id="description"
-                    name="description"
-                    rows="4"
-                    placeholder="Describe the current condition..."
-                ></textarea>
-
-
-                <label for="inspector">
-                    Inspector
-                </label>
-
-                <input
-                    type="text"
-                    id="inspector"
-                    name="inspector"
-                    placeholder="Your name"
-                    required
-                >
-
-
-                <button type="submit">
-                    Submit Survey
-                </button>
-
-            </form>
-
-            <div id="message"></div>
-
-        </main>
-
-    </div>
-
-    <script src="db.js"></script>
-    <script src="sync.js"></script>
-    <script src="app.js"></script>
-
+  <script src="db.js"></script>
+  <script src="sync.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
