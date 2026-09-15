@@ -20,8 +20,11 @@ function openSuccessModal(title, desc) {
   const modal = document.getElementById("success-modal");
   if (!modal) return;
 
-  if (title) document.getElementById("modal-title").textContent = title;
-  if (desc) document.getElementById("modal-desc").textContent = desc;
+  const titleEl = document.getElementById("modal-title");
+  const descEl = document.getElementById("modal-desc");
+
+  if (title && titleEl) titleEl.textContent = title;
+  if (desc && descEl) descEl.textContent = desc; // An toàn nếu không tìm thấy phần tử
 
   modal.classList.add("active");
 }
@@ -49,7 +52,7 @@ if (modalEl) {
   });
 }
 
-// --- QUẢN LÝ TRẠNG THÁI MẠNG (RESONANCE INDICATOR) ---
+// --- QUẢN LÝ TRẠNG THÁI MẠNG ---
 
 const resonanceStatus = document.getElementById("network-status");
 function updateResonanceNetwork() {
@@ -58,7 +61,7 @@ function updateResonanceNetwork() {
   const statusTxt = resonanceStatus.querySelector(".status-txt");
 
   if (navigator.onLine) {
-    if (statusTxt) statusTxt.textContent = "RESONANCE CONNECTED";
+    if (statusTxt) statusTxt.textContent = "CONNECTED";
     resonanceStatus.style.color = "var(--online-green)";
     resonanceStatus.style.borderColor = "rgba(52, 211, 153, 0.25)";
     resonanceStatus.style.background = "rgba(52, 211, 153, 0.08)";
@@ -67,7 +70,7 @@ function updateResonanceNetwork() {
       resonanceRing.style.boxShadow = "0 0 8px var(--online-green)";
     }
   } else {
-    if (statusTxt) statusTxt.textContent = "FREQUENCY INTERRUPTED (OFFLINE)";
+    if (statusTxt) statusTxt.textContent = "OFFLINE";
     resonanceStatus.style.color = "var(--alert-red)";
     resonanceStatus.style.borderColor = "rgba(248, 113, 113, 0.25)";
     resonanceStatus.style.background = "rgba(248, 113, 113, 0.08)";
@@ -82,14 +85,13 @@ window.addEventListener("online", updateResonanceNetwork);
 window.addEventListener("offline", updateResonanceNetwork);
 updateResonanceNetwork();
 
-// --- XỬ LÝ SUBMIT FORM KHẢO SÁT (SINGLE LISTENER) ---
+// --- XỬ LÝ SUBMIT FORM ---
 
 const surveyForm = document.getElementById("survey-form");
 const submitBtn = surveyForm ? surveyForm.querySelector(".wuwa-btn") : null;
 const btnInner = submitBtn ? submitBtn.querySelector(".btn-inner") : null;
 const originalBtnContent = btnInner ? btnInner.innerHTML : "";
 
-// Tự động khôi phục tên Inspector đã lưu
 const savedInspector = localStorage.getItem("vku_last_inspector");
 if (savedInspector && document.getElementById("inspector")) {
   document.getElementById("inspector").value = savedInspector;
@@ -99,10 +101,9 @@ if (surveyForm) {
   surveyForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    // 1. Khóa nút submit và bật trạng thái tải dữ liệu
     if (submitBtn) {
       submitBtn.disabled = true;
-      btnInner.innerHTML = `<span class="spinner"></span> TRANSMITTING PACKET...`;
+      btnInner.innerHTML = `<span class="spinner"></span> RECORDING...`;
     }
 
     const inspectorName = document.getElementById("inspector").value.trim();
@@ -127,32 +128,31 @@ if (surveyForm) {
     };
 
     try {
-      // 2. Lưu vào IndexedDB (Offline-First)
+      // 1. Lưu vào IndexedDB (Cực nhanh, chỉ mất vài mili-giây)
       if (typeof saveSurvey === "function") {
         await saveSurvey(surveyData);
       } else {
         throw new Error("Không tìm thấy hàm saveSurvey trong db.js!");
       }
 
-      // 3. Xử lý đồng bộ dữ liệu và hiển thị phản hồi
+      // 2. HIỆN MODAL NGAY LẬP TỨC CHO NGƯỜI DÙNG
       if (navigator.onLine) {
-        if (typeof syncPendingSurveys === "function") {
-          await syncPendingSurveys();
-        }
         openSuccessModal(
           "TRANSMISSION COMPLETE",
-          "Dữ liệu khảo sát hiện trường đã được đồng bộ lên Google Sheets thành công!"
+          "Dữ liệu khảo sát đã được ghi nhận và đang tiến hành đồng bộ lên Google Sheets!"
         );
-        showMessage("✦ TRANSMISSION COMPLETE // Đã đồng bộ Cloud!", "success");
+        // Chạy đồng bộ ngầm, KHÔNG dùng await để tránh làm form đứng hình chờ mạng
+        if (typeof syncPendingSurveys === "function") {
+          syncPendingSurveys();
+        }
       } else {
         openSuccessModal(
           "BUFFERED LOCALLY (OFFLINE)",
-          "Mạng gián đoạn: Dữ liệu đã lưu an toàn vào IndexedDB. Hệ thống sẽ tự động đồng bộ khi có kết nối trở lại."
+          "Đang ngoại tuyến: Dữ liệu đã lưu an toàn vào máy (IndexedDB) và sẽ tự động đồng bộ khi có mạng."
         );
-        showMessage("✦ BUFFERED LOCALLY // Đã lưu vào bộ nhớ đệm thiết bị.", "warning");
       }
 
-      // 4. Reset form nhưng giữ lại Inspector / Zone / Building
+      // 3. Reset form
       surveyForm.reset();
       document.getElementById("inspector").value = inspectorName;
       document.getElementById("zone").value = currentZone;
@@ -162,7 +162,6 @@ if (surveyForm) {
       console.error("Lỗi gửi biểu mẫu:", err);
       showMessage("TRANSMISSION FAILED: " + err.message, "error");
     } finally {
-      // 5. Mở khóa nút bấm về trạng thái ban đầu
       if (submitBtn) {
         submitBtn.disabled = false;
         btnInner.innerHTML = originalBtnContent;
