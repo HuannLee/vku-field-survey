@@ -69,7 +69,7 @@ body {
   gap: 14px;
 }
 
-/* Hiệu ứng sóng âm nhẹ */
+/* Hiệu ứng sóng âm dao động */
 .frequency-bars {
   display: flex;
   align-items: center;
@@ -144,7 +144,7 @@ body {
   box-shadow: 0 0 8px var(--online-green);
 }
 
-/* Đường phân cách ánh vàng mờ */
+/* Đường kẻ phân cách ánh vàng mờ */
 .gold-divider {
   width: 92%;
   height: 1px;
@@ -227,7 +227,7 @@ textarea {
   min-height: 85px;
 }
 
-/* Xử lý Dropdown tối theo theme */
+/* Định dạng Dropdown Dark Mode */
 select {
   color-scheme: dark;
   cursor: pointer;
@@ -292,6 +292,58 @@ select option[value=""] {
   transform: translateY(1px);
 }
 
+.wuwa-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(17, 20, 28, 0.3);
+  border-radius: 50%;
+  border-top-color: #11141c;
+  animation: spin 0.8s linear infinite;
+  margin-right: 6px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Hộp thông báo phản hồi */
+#message {
+  margin-top: 16px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-align: center;
+  display: none;
+  animation: slideFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+#message:not(:empty) {
+  display: block;
+  background: rgba(226, 194, 133, 0.08);
+  border: 1px solid rgba(226, 194, 133, 0.25);
+  color: var(--gold-soft);
+}
+
+@keyframes slideFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 /* Footer */
 .wuwa-footer {
   padding: 12px 28px;
@@ -305,20 +357,137 @@ select option[value=""] {
   color: rgba(148, 163, 184, 0.5);
 }
 
-/* Hộp thông báo */
-#message {
-  margin-top: 14px;
-  padding: 12px 14px;
-  border-radius: 10px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  text-align: center;
-  display: none;
+/* --- MODAL (POPUP NHẬN THƯỞNG / THÀNH CÔNG) --- */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(4, 6, 10, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 16px;
 }
 
-#message:not(:empty) {
-  display: block;
-  background: rgba(226, 194, 133, 0.08);
-  border: 1px solid rgba(226, 194, 133, 0.25);
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 420px;
+  background: rgba(18, 22, 32, 0.95);
+  border: 1px solid rgba(226, 194, 133, 0.35);
+  border-radius: 20px;
+  padding: 32px 24px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 30px rgba(226, 194, 133, 0.15);
+  transform: scale(0.9) translateY(20px);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.modal-overlay.active .modal-card {
+  transform: scale(1) translateY(0);
+}
+
+.modal-glow {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 160px;
+  height: 80px;
+  background: radial-gradient(circle, rgba(226, 194, 133, 0.25) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.modal-icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 16px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 1.5px dashed var(--gold-soft);
+  animation: rotateRing 12s linear infinite;
+}
+
+@keyframes rotateRing {
+  to { transform: rotate(360deg); }
+}
+
+.icon-symbol {
+  font-size: 1.6rem;
   color: var(--gold-soft);
+  text-shadow: 0 0 12px var(--gold-soft);
+}
+
+.modal-tag {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  color: var(--gold-soft);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.modal-card h3 {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.modal-card p {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.modal-btn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--gold-soft) 0%, #c49e58 100%);
+  border: none;
+  border-radius: 12px;
+  color: #10131c;
+  padding: 13px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  box-shadow: 0 4px 15px var(--gold-glow);
+  transition: all 0.2s ease;
+}
+
+.modal-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.modal-btn:active {
+  transform: translateY(1px);
 }
